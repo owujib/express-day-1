@@ -8,6 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, 'views/'));
 app.set('view engine', 'ejs');
+
 // static routes
 app.use('/images', express.static(path.join(__dirname, '/views/images/')));
 app.use('/css', express.static(path.join(__dirname, '/views/css/')));
