@@ -1,0 +1,26 @@
+<%- include('../includes/navbar.ejs') %>
+<h1 class="text-center m-5 text-secondary mb-4"><%= header %></h1>
+<div class="row m-3">
+  <% products.map(product =>{ %>
+  <div class="col-md-4 mb-3">
+    <div class="card" style="">
+      <img src="<%= product.product_image %> " class="card-img-top" alt="..." />
+      <div class="card-body">
+        <h5 class="card-title"><%= product.product_name %></h5>
+        <p class="card-text">
+          Some quick example text to build on the card title and make up the <%=
+          product.description.slice(0, 20) %>.
+        </p>
+        <a
+          href="http://localhost:3000/product/?id=<%= product.id %>"
+          class="btn btn-primary"
+          >Go somewhere</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <% }) %>
+</div>
+
+<%- include('../includes/footer.ejs') %>
