@@ -2,13 +2,20 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
+//products
+const productRouter = require('./routes/product.routes');
+
 const app = express();
 
-let db =
-  'mongodb+srv://admin:password@cluster0.c3mvo.mongodb.net/e-com?retryWrites=true&w=majority';
+app.use(express.json());
+
+app.use('/api/product', productRouter);
 
 mongoose
-  .connect(db)
+  .connect(process.env.MONGO_LOCAL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log('database is connected '))
   .catch((err) => console.log(err));
 
