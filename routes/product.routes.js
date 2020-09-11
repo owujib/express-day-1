@@ -1,37 +1,22 @@
 const express = require('express');
 
-const Product = require('../models/ProductModel');
+const productController = require('../controllers/product.controller');
 
 const router = express.Router();
 
 //read data
-router.get('/', (req, res) => {
-  res.status(200).json({ msg: 'products' });
-});
+router.get('/', productController.getAllProducts);
 
 //create data
-router.post('/new-product', async (req, res) => {
-  try {
-    const product = await Product.create(req.body);
-    res.status(200).json(product);
-  } catch (error) {
-    console.log(error);
-  }
-});
+router.post('/new-product', productController.createProduct);
 
 //read single data
-router.get('/:id', (req, res) => {
-  res.status(200).json({ msg: 'product' });
-});
+router.get('/:id', productController.getSingleProduct);
 
 //update data
-router.patch('/update-product/:id', (req, res) => {
-  res.status(200).json({ msg: 'product updated' });
-});
+router.patch('/update-product/:id', productController.updateProduct);
 
 //delete data
-router.delete('/delete-product/:id', (req, res) => {
-  res.status(200).json({ msg: 'product deleted' });
-});
+router.delete('/delete-product/:id', productController.deleteProduct);
 
 module.exports = router;
