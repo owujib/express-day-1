@@ -11,6 +11,9 @@ const productSchema = new mongoose.Schema({
     required: [true, 'a product must have a size'],
   },
   color: [String],
+  productImg: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     default: Date.now(),

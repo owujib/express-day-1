@@ -1,22 +1,12 @@
 const express = require('express');
-
-const User = require('../models/UserModel');
+const authController = require('../controllers/auth.controller');
 
 const router = express.Router();
 
 //signup
-router.post('/signup', async (req, res) => {
-  try {
-    const user = await User.create(req.body);
-    res.status(201).json(user);
-  } catch (error) {
-    console.log(error);
-  }
-});
+router.post('/signup', authController.signup);
 
 //login
-router.post('/login', (req, res) => {
-  res.status(200).json({ msg: 'logged in successfully' });
-});
+router.post('/login', authController.login);
 
 module.exports = router;

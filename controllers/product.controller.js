@@ -1,4 +1,7 @@
+const fs = require('fs');
 const Product = require('../models/ProductModel');
+
+const formidable = require('formidable');
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -48,4 +51,35 @@ exports.deleteProduct = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+exports.uploadProductImg = (req, res, next) => {
+  let id = req.params.id;
+  let formData = new formidable.IncomingForm();
+
+  formData.parse(req, (err, fields, files) => {
+    let oldProductImg = files.productImg.path;
+
+    let productImg =
+      'uploads/product-images/' +
+      new Date().getTime() +
+      '-' +
+      files.productImg.name;
+
+    fs.rename(oldProductImg, productImg, (err) => {
+      if (err) throw err;
+    });
+
+    Product.findByIdAndUpdate(
+      { _id: id },
+      { productImg },
+      { new: true },
+      (err, doc) => {
+        if (err) throw err;
+
+        doc.save();
+        res.send(doc);
+      }
+    );
+  });
 };
