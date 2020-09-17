@@ -33,12 +33,13 @@ exports.login = async (req, res, next) => {
   }
 };
 
+//authorization
 exports.isAuth = async (req, res, next) => {
   try {
     let token = req.header('auth_token');
 
     if (!token) {
-      res.status(403).json({ msg: 'user is not authorised' });
+      res.status(403).json({ msg: 'user is not authorised please login' });
     }
     const verified = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById({ _id: verified.id });

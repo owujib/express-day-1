@@ -1,7 +1,7 @@
 const fs = require('fs');
-const Product = require('../models/ProductModel');
+const formidable = require('formidable'); //file upload
 
-const formidable = require('formidable');
+const Product = require('../models/ProductModel');
 
 exports.getAllProducts = async (req, res) => {
   try {
