@@ -20,4 +20,4 @@ Go create a `.env` from the `.env.sample` file and supply the empty data
 
 you can also follow me on github [@owujib](https://www.github.com/owujib)
 
-[image](uploads/product-images/1600091368616-git-img1.PNG)
+![github user profile](https://avatars2.githubusercontent.com/u/48925577?s=460&u=2fc049b5e496f912c973bce1b97e28066c26f98c&v=4)
