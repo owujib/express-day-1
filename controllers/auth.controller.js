@@ -1,10 +1,24 @@
-const User = require('../models/UserModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-exports.signup = async (req, res) => {
+const User = require('../models/UserModel');
+const AppError = require('../utils/appError');
+const utils = require('../utils/validation');
+
+exports.signup = async (req, res, next) => {
   try {
+    const { error } = utils.signupValidation(req.body);
+
+    if (error) {
+      return next(new AppError(error, 400));
+    }
+    const userExist = await User.findOne({ email: req.body.email });
+    if (userExist) {
+      return next(
+        new AppError('a user with this credentials already exist', 400)
+      );
+    }
     const user = await User.create(req.body);
     res.status(201).json(user);
   } catch (error) {
@@ -14,16 +28,20 @@ exports.signup = async (req, res) => {
 
 exports.login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { error } = utils.loginValidation(req.body);
+    if (error) {
+      next(new AppError(error, 400));
+    }
 
+    const { email, password } = req.body;
     const userExist = await User.findOne({ email: email });
     if (!userExist) {
-      next(new Error('User does not exist'));
+      next(new AppError('User does not exist', 400));
     }
 
     const correctPassword = await bcrypt.compare(password, userExist.password);
     if (!correctPassword) {
-      next(new Error('incorrect credentials'));
+      next(new AppError('incorrect credentials', 400));
     }
 
     let token = jwt.sign({ id: userExist._id }, process.env.JWT_SECRET);
